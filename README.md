@@ -57,7 +57,6 @@ Vagrant.configure('2') do |config|
     ovirt.username = 'username'
     ovirt.password = 'password'
     ovirt.datacenter = 'datacenter'
-    #ovirt.ip_command = 'echo ipaddress'
   end
 
 
@@ -72,8 +71,6 @@ This provider exposes quite a few provider-specific configuration options:
 * `password` - Password to access oVirt.
 * `datacenter` - oVirt datacenter name, where machines will be created.
 * `cluster` - oVirt cluster name. Defaults to first cluster found.
-* `ip_command` - Shell command, which shoud return IP address string for
- MAC address specified as the first parameter in the call.
 
 ### Domain Specific Options
 
@@ -146,7 +143,6 @@ Vagrant.configure('2') do |config|
     ovirt.username = 'username'
     ovirt.password = 'password'
     ovirt.datacenter = 'datacenter'
-    #ovirt.ip_command = 'echo ipaddress'
   end
 
   config.vm.provision 'shell' do |shell|
@@ -170,7 +166,7 @@ Vagrant goes through steps below when creating new project:
 1.	Connect to oVirt via REST API on every REST query.
 2.	Create new oVirt machine from template with additional network interfaces.
 3.	Start oVirt machine.
-4.	Check for IP address of VM with `ip_command`.
+4.	Check for IP address of VM using the REST API.
 5.	Wait till SSH is available.
 6.	Sync folders via `rsync` and run Vagrant provisioner on new domain if
 	setup in Vagrantfile.
@@ -200,14 +196,8 @@ dynamically via dhcp.
 
 ## Obtaining Domain IP Address
 
-OVirt API doesn't provide standard way how to find out an IP address of running
-VM. But we know, what is MAC address of virtual machine. Problem is, where to
-get mapping MAC to IP address.
-
-There is an option named ip_command, which by default looks into local arp
-table and searches there IP for MAC address specified as a MAC shell variable.
-Maybe you need to customize this behaviour, so setup your own ip_commands to
-your needs.
+The IP address of a running VM can be obtained using the oVirt REST API.
+To make this possible the package 'ovirt-guest-agent' needs to be installed in the box image.
 
 ## Synced Folders
 

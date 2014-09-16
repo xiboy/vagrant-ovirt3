@@ -23,21 +23,7 @@ module VagrantPlugins
           # Get config.
           config = env[:machine].provider_config
 
-          # Get VM.
-          server = env[:ovirt_compute].servers.get(env[:machine].id.to_s)
-          if server == nil
-            raise NoVMError, :vm_name => ''
-          end
-
-          # oVirt doesn't provide a way how to find out IP of VM via API.
-          # IP command should return IP address of MAC defined as a shell
-          # variable.
-          first_interface = OVirtProvider::Util::Collection.find_matching(
-            server.interfaces, 'nic1')
-          ip_command = "#{config.ip_command} #{first_interface.mac}"
-
-          # Wait for VM to obtain an ip address. Ip address is searched via
-          # custom configurable 'ip_command', or by default in local arp table.
+          # Wait for VM to obtain an ip address.
           env[:ip_address] = nil
           env[:metrics]["instance_ip_time"] = Util::Timer.time do
             env[:ui].info(I18n.t("vagrant_ovirt.waiting_for_ip"))
@@ -46,9 +32,13 @@ module VagrantPlugins
               # If we're interrupted don't worry about waiting
               next if env[:interrupted]
 
-              # Wait for VM to obtain an ip address.
-              @logger.debug("Executing command #{ip_command}")
-              env[:ip_address] = %x{#{ip_command}}
+              # Get VM.
+              server = env[:ovirt_compute].servers.get(env[:machine].id.to_s)
+              if server == nil
+                raise NoVMError, :vm_name => ''
+              end
+
+              env[:ip_address] = server.ips.first
               @logger.debug("Got output #{env[:ip_address]}")
               break if env[:ip_address] =~ /[0-9\.]+/
               sleep 2

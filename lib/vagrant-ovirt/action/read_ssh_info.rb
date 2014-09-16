@@ -34,20 +34,7 @@ module VagrantPlugins
             return nil
           end
 
-          # oVirt doesn't provide a way how to find out IP of VM via API.
-          # IP command should return IP address of MAC defined as a shell
-          # variable.
-          # TODO place code for obtaining IP in one place.
-          first_interface = OVirtProvider::Util::Collection.find_matching(
-            server.interfaces, 'nic1')
-          ip_command = "#{config.ip_command} #{first_interface.mac}"
-
-          for i in 1..3
-            # Get IP address via ip_command.
-            ip_address = %x{#{ip_command}}
-            break if ip_address != ''
-            sleep 2
-          end
+          ip_address = server.ips.first
           if ip_address == nil or ip_address == ''
             raise Errors::NoIpAddressError
           end
@@ -55,7 +42,7 @@ module VagrantPlugins
           # Return the info
           # TODO: Some info should be configurable in Vagrantfile
           return {
-            :host             => ip_address.chomp!,
+            :host             => ip_address,
             :port             => machine.config.ssh.guest_port,
             :username         => machine.config.ssh.username,
             :private_key_path => machine.config.ssh.private_key_path,

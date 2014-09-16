@@ -48,7 +48,7 @@ fi
 
 # Install some required software.
 yum -y install openssh-server openssh-clients sudo curl \
-ruby ruby-devel make gcc rubygems rsync nmap puppet
+ruby ruby-devel make gcc rubygems rsync puppet ovirt-guest-agent
 chkconfig sshd on
 
 # Users, groups, passwords and sudoers.
@@ -105,11 +105,6 @@ set_sysctl()
 set_sysctl 'net.ipv4.conf.all.arp_ignore' 1
 set_sysctl 'net.ipv4.conf.all.arp_announce' 2
 set_sysctl 'net.ipv4.conf.all.rp_filter' 3
-
-# Ok, this is not very clean solution. Should be replaced in future. It allows
-# all machines on local network to have arp record about new VM.
-echo 'for NETWORK in $(ip a | grep -w inet | grep -v "127.0.0.1" | awk "{ print \$2 }"); do nmap -sP $NETWORK; done' > /etc/rc3.d/S99ping_broadcast
-chmod +x /etc/rc3.d/S99ping_broadcast
 
 # Don't fix ethX names to hw address.
 rm -f /etc/udev/rules.d/*persistent-net.rules
