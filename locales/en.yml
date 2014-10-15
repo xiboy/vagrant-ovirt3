@@ -50,6 +50,8 @@ en:
         No network %{network_name} found.
       start_vm_error: |-
         Unable to start VM: %{error_message}
+      wait_for_ready_vm_timeout: |-
+        Timeout occurred while waiting for VM to become ready to start
       no_ip_address_error: |-
         No IP address found.
       rsync_error: |-

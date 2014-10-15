@@ -85,6 +85,10 @@ module VagrantPlugins
             sleep 2
           end
 
+          if not ready
+            raise Errors::WaitForReadyVmTimeout
+          end
+
           @app.call(env)
         end
 
