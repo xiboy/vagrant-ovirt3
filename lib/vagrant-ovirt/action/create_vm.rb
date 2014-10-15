@@ -73,7 +73,7 @@ module VagrantPlugins
 
           # Wait till all volumes are ready.
           env[:ui].info(I18n.t("vagrant_ovirt.wait_for_ready_vm"))
-          for i in 0..5
+          for i in 0..10
             ready = true
             server.volumes.each do |volume|
               if volume.status != 'ok'
