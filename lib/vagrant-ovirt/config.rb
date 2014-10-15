@@ -15,6 +15,7 @@ module VagrantPlugins
       attr_accessor :cpus
       attr_accessor :template
       attr_accessor :console
+      attr_accessor :disk_size
 
       def initialize
         @url            = UNSET_VALUE
@@ -28,6 +29,7 @@ module VagrantPlugins
         @cpus       = UNSET_VALUE
         @template   = UNSET_VALUE
         @console    = UNSET_VALUE
+        @disk_size  = UNSET_VALUE
       end
 
       def finalize!
@@ -42,6 +44,7 @@ module VagrantPlugins
         @cpus = 1 if @cpus == UNSET_VALUE
         @template = 'Blank' if @template == UNSET_VALUE
         @console = 'spice' if @console == UNSET_VALUE
+        @disk_size = nil if @disk_size == UNSET_VALUE
       end
 
       def validate(machine)

@@ -83,6 +83,8 @@ This provider exposes quite a few provider-specific configuration options:
 * `cpus` - Number of virtual cpus. Defaults to 1 if not set.
 * `template` - Name of template from which new VM should be created.
 * `console` - Console type to use. Can be 'vnc' or 'spice'. Default is 'spice'
+* `disk_size` - If set, the first volume of the VM will automatically be resized
+ to the specified value. disk_size is in GB
 
 Specific domain settings can be set for each domain separately in multi-VM
 environment. Example below shows a part of Vagrantfile, where specific options

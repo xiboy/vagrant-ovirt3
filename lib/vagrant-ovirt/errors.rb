@@ -59,6 +59,13 @@ module VagrantPlugins
         error_key(:no_network_error)
       end
 
+      class UpdateVolumeError < VagrantOVirtError
+        error_key(:update_volume_error)
+      end
+
+      class WaitForReadyResizedVolumeTimeout < VagrantOVirtError
+        error_key(:wait_for_ready_resized_volume_timeout)
+      end
     end
   end
 end

@@ -22,6 +22,8 @@ en:
       VM is already created.
     ready: |-
       Machine is booted and ready for use!
+    wait_for_ready_volume: |-
+      Waiting for VM volume to become "ready" to start...
 
     errors:
       fog_ovirt_connection_error: |-
@@ -61,6 +63,10 @@ en:
         Host path: %{hostpath}
         Guest path: %{guestpath}
         Error: %{stderr}
+      update_volume_error: |-
+        Error while updating volume. %{error_message}
+      wait_for_ready_resized_volume_timeout: |-
+        Timeout occurred while waiting for resized volume to become ready
 
     states:
       short_paused: |-

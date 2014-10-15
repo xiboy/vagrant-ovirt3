@@ -19,6 +19,7 @@ module VagrantPlugins
 
             b2.use SetNameOfDomain
             b2.use CreateVM
+            b2.use ResizeDisk
 
             b2.use Provision
             b2.use CreateNetworkInterfaces
@@ -115,6 +116,7 @@ module VagrantPlugins
       autoload :SetNameOfDomain, action_root.join("set_name_of_domain")
       autoload :CreateVM, action_root.join("create_vm")
       autoload :CreateNetworkInterfaces, action_root.join("create_network_interfaces")
+      autoload :ResizeDisk, action_root.join("resize_disk")
       autoload :StartVM, action_root.join("start_vm")
       autoload :MessageNotCreated, action_root.join("message_not_created")
       autoload :DestroyVM, action_root.join("destroy_vm")

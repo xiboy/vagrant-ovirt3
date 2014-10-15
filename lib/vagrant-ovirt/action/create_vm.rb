@@ -50,6 +50,9 @@ module VagrantPlugins
           env[:ui].info(" -- Datacenter:    #{config.datacenter}")
           env[:ui].info(" -- Cluster:       #{cluster.name}")
           env[:ui].info(" -- Console:       #{console}")
+          if config.disk_size
+            env[:ui].info(" -- Disk size:     #{config.disk_size}G")
+          end
 
           # Create oVirt VM.
           attr = {
