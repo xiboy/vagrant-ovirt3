@@ -8,6 +8,13 @@ allowing Vagrant to control and provision machines in oVirt and RHEV.
 In this document, both oVirt and RHEV names are used interchangeably and
 represent the same platform on top of which this provider should work.
 
+## Version 0.2.1
+* Removed automatic resizing, will be readded when upstream fog changes are committed to rubygems.org
+
+## Features (Version 0.2.0)
+* ~~Volumes are automatically resized~~
+* Replaced configuration to get IP configuration with REST API usage
+
 ## Features (Version 0.1.0)
 
 * Vagrant `up` and `destroy` commands.
@@ -22,15 +29,13 @@ represent the same platform on top of which this provider should work.
 * Test it on other versions of oVirt and RHEV.
 * Template preparation scripts for other distros than RHEL.
 * Vagrant commands `halt`, `resume`, `ssh`, `provision`, `suspend` and `resume`.
-* Take a look at [open issues](https://github.com/pradels/vagrant-ovirt/issues?state=open).
+* Take a look at [open issues](https://github.com/myoung34/vagrant-ovirt/issues?state=open).
 
 ## Installation
 
-Install using standard [Vagrant 1.1+](http://downloads.vagrantup.com) plugin installation methods. After
-installing, `vagrant up` and specify the `ovirt` provider. An example is shown below.
-
 ```
-$ vagrant plugin install vagrant-ovirt
+$ vagrant plugin install vagrant-ovirt2
+$ vagrant up --provider=ovirt
 ```
 
 ## Vagrant Project Preparation
@@ -41,7 +46,7 @@ your information where necessary.
 ```ruby
 Vagrant.configure('2') do |config|
   config.vm.box = 'ovirt'
-  config.vm.box_url = 'https://raw.github.com/pradels/vagrant-ovirt/master/example_box/ovirt.box'
+  config.vm.box_url = 'https://raw.github.com/myoung34/vagrant-ovirt/master/example_box/ovirt.box'
 
   config.vm.network :private_network, 
     :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0' #normal network configuration
@@ -96,19 +101,6 @@ Vagrant.configure("2") do |config|
 
   # ...
 ```
-
-## Create Project - Vagrant up
-
-In prepared project directory, run following command:
-
-```
-$ vagrant up --provider=ovirt
-```
-
-Vagrant needs to know that we want to use oVirt and not default VirtualBox.
-That's why there is `--provider=ovirt` option specified. Other way to tell
-Vagrant to use oVirt provider is to setup environment variable
-`export VAGRANT_DEFAULT_PROVIDER=ovirt`.
 
 ## Multiple provider Vagrantfile with Provisioners Example
 
@@ -193,26 +185,11 @@ Interface is connected to `ovirt_networkname` network and configured to ip
 address `10.20.30.40/24`. If you omit ip address, interface will be configured
 dynamically via dhcp.
 
-
-## Obtaining Domain IP Address
-
-The IP address of a running VM can be obtained using the oVirt REST API.
-To make this possible the package 'ovirt-guest-agent' needs to be installed in the box image.
-
-## Synced Folders
-
-There is minimal support for synced folders. Upon `vagrant up`, the oVirt
-provider will use `rsync` (if available) to uni-directionally sync the folder
-to the remote machine over SSH.
-
-This is good enough for all built-in Vagrant provisioners (shell,
-chef, and puppet) to work!
-
 ## Box Format
 
 Every provider in Vagrant must introduce a custom box format. This provider
 introduces oVirt boxes. You can view an example box in the
-[example_box](https://github.com/pradels/vagrant-ovirt/tree/master/example_box)
+[example_box](https://github.com/myoung34/vagrant-ovirt/tree/master/example_box)
 directory. That directory also contains instructions on how to build a box.
 
 The box is a tarball containing:
