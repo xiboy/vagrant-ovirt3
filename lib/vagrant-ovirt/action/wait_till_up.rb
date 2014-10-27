@@ -58,12 +58,8 @@ module VagrantPlugins
               next if env[:interrupted]
 
               # Wait till we are able to connect via ssh.
-              while true
-                # If we're interrupted then just back out
-                break if env[:interrupted]
-                break if env[:machine].communicate.ready?
-                sleep 2
-              end            
+              next if env[:machine].communicate.ready?
+              sleep 2
             end
           end
           terminate(env) if env[:interrupted]
