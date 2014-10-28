@@ -40,7 +40,8 @@ module VagrantPlugins
             options = scoped_hash_override(options, :ovirt)
             options = {
               :netmask      => '255.255.255.0',
-              :network_name => 'rhevm'
+              :network_name => 'rhevm',
+              :interface_type => 'virtio'
             }.merge(options)
 
             if options[:adapter]
@@ -79,7 +80,7 @@ module VagrantPlugins
               machine.add_interface(
                 :name    => "nic#{iface_number}",
                 :network => network.id,
-                :interface => network.name,
+                :interface => opts[:interface_type],
               )
             rescue => e
               raise Errors::AddInterfaceError,
