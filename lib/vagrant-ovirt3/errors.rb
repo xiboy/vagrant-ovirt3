@@ -4,7 +4,7 @@ module VagrantPlugins
   module OVirtProvider
     module Errors
       class VagrantOVirtError < Vagrant::Errors::VagrantError
-        error_namespace("vagrant_ovirt.errors")
+        error_namespace("vagrant_ovirt3.errors")
       end
 
       class FogOVirtConnectionError < VagrantOVirtError

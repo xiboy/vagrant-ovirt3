@@ -1,12 +1,16 @@
-# Vagrant oVirt/RHEV Provider
+# Vagrant oVirt/RHEV v3 Provider
 
 This is a [Vagrant](http://www.vagrantup.com) 1.1+ plugin that adds an
-[oVirt](http://ovirt.org) and
-[rhev](http://www.redhat.com/products/virtualization/) provider to Vagrant,
+[oVirt v3](http://ovirt.org) and
+[rhev v3](http://www.redhat.com/products/virtualization/) provider to Vagrant,
 allowing Vagrant to control and provision machines in oVirt and RHEV.
 
 In this document, both oVirt and RHEV names are used interchangeably and
 represent the same platform on top of which this provider should work.
+
+## Version 1.0.0
+* Complete overhaul of naming schemes. Vagrant-ovirt upstream is deprecated. The provider going forward is 'ovirt3' to allow gem/plugin availability.
+* Volumes are automatically resized
 
 ## Version 0.2.1
 * Removed automatic resizing, will be readded when upstream fog changes are committed to rubygems.org
@@ -29,13 +33,13 @@ represent the same platform on top of which this provider should work.
 * Test it on other versions of oVirt and RHEV.
 * Template preparation scripts for other distros than RHEL.
 * Vagrant commands `halt`, `resume`, `ssh`, `provision`, `suspend` and `resume`.
-* Take a look at [open issues](https://github.com/myoung34/vagrant-ovirt/issues?state=open).
+* Take a look at [open issues](https://github.com/myoung34/vagrant-ovirt3/issues?state=open).
 
 ## Installation
 
 ```
-$ vagrant plugin install vagrant-ovirt2
-$ vagrant up --provider=ovirt
+$ vagrant plugin install vagrant-ovirt3
+$ vagrant up --provider=ovirt3
 ```
 
 ## Vagrant Project Preparation
@@ -46,14 +50,13 @@ your information where necessary.
 ```ruby
 Vagrant.configure('2') do |config|
   config.vm.box = 'ovirt'
-  config.vm.box_url = 'https://raw.github.com/myoung34/vagrant-ovirt/master/example_box/ovirt.box'
+  config.vm.box_url = 'https://raw.github.com/myoung34/vagrant-ovirt3/master/example_box/ovirt.box'
 
   config.vm.network :private_network, 
-    :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0' #normal network configuration
-    :ovirt__ip => '10.101.55.72', :ovirt__network_name => 'ovirtmgmt', :ovirt__gateway => '10.101.55.1', # oVirt specific information, overwrites previous on oVirt provider
+    :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0', #normal network configuration
+    :ovirt__ip => '10.101.55.72', :ovirt__network_name => 'ovirtmgmt', :ovirt__gateway => '10.101.55.1' # oVirt specific information, overwrites previous on oVirt provider
     
-
-  config.vm.provider :ovirt do |ovirt|
+  config.vm.provider :ovirt3 do |ovirt|
     ovirt.template = 'template'
     ovirt.cpus = 1
     ovirt.memory = 1024
@@ -63,8 +66,7 @@ Vagrant.configure('2') do |config|
     ovirt.password = 'password'
     ovirt.datacenter = 'datacenter'
   end
-
-
+end
 ```
 
 ### RHEV/oVirt Configuration Options
@@ -94,7 +96,7 @@ are set for dbserver domain.
 Vagrant.configure("2") do |config|
   config.vm.define :dbserver do |dbserver|
     dbserver.vm.box = "ovirt"
-    dbserver.vm.provider :ovirt do |vm|
+    dbserver.vm.provider :ovirt3 do |vm|
       vm.memory = 2048
       vm.cpus = 2
       vm.template = "centos63-vagrant-base"
@@ -128,7 +130,7 @@ Vagrant.configure('2') do |config|
   end
 
 
-  config.vm.provider :ovirt do |ovirt|
+  config.vm.provider :ovirt3 do |ovirt|
     ovirt.template = 'template'
     ovirt.cpus = 1
     ovirt.memory = 1024
@@ -191,7 +193,7 @@ dynamically via dhcp.
 
 Every provider in Vagrant must introduce a custom box format. This provider
 introduces oVirt boxes. You can view an example box in the
-[example_box](https://github.com/myoung34/vagrant-ovirt/tree/master/example_box)
+[example_box](https://github.com/myoung34/vagrant-ovirt3/tree/master/example_box)
 directory. That directory also contains instructions on how to build a box.
 
 The box is a tarball containing:

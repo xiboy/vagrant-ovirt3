@@ -9,7 +9,7 @@ module VagrantPlugins
         include Vagrant::Util::ScopedHashOverride
 
         def initialize(app, env)
-          @logger = Log4r::Logger.new("vagrant_ovirt::action::create_network_interfaces")
+          @logger = Log4r::Logger.new("vagrant_ovirt3::action::create_network_interfaces")
           @app = app
         end
 
@@ -62,9 +62,6 @@ module VagrantPlugins
           adapters.each_with_index do |opts, slot_number|
             next if slot_number == 0 or opts.nil?
             iface_number = slot_number + 1
-
-            #require 'pp'
-            #pp env[:ovirt_client].networks(:cluster => env[:ovirt_cluster].id)
 
             # Get network id
             network = OVirtProvider::Util::Collection.find_matching(

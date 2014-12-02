@@ -8,7 +8,7 @@ module VagrantPlugins
     module Action
       class ConnectOVirt
         def initialize(app, env)
-          @logger = Log4r::Logger.new("vagrant_ovirt::action::connect_ovirt")
+          @logger = Log4r::Logger.new("vagrant_ovirt3::action::connect_ovirt")
           @app = app
         end
 

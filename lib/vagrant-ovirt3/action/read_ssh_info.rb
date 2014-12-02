@@ -8,7 +8,7 @@ module VagrantPlugins
       class ReadSSHInfo
         def initialize(app, env)
           @app    = app
-          @logger = Log4r::Logger.new("vagrant_ovirt::action::read_ssh_info")
+          @logger = Log4r::Logger.new("vagrant_ovirt3::action::read_ssh_info")
         end
 
         def call(env)

@@ -1,30 +1,30 @@
 begin
   require 'vagrant'
 rescue LoadError
-  raise "The Vagrant oVirt plugin must be run within Vagrant."
+  raise "The Vagrant oVirt v3 plugin must be run within Vagrant."
 end
 
 
 # This is a sanity check to make sure no one is attempting to install
 # this into an early Vagrant version.
 if Vagrant::VERSION < '1.1.0'
-  raise "The Vagrant oVirt plugin is only compatible with Vagrant 1.1+"
+  raise "The Vagrant oVirt v3 plugin is only compatible with Vagrant 1.1+"
 end
 
 module VagrantPlugins
   module OVirtProvider
     class Plugin < Vagrant.plugin('2')
-      name "ovirt"
+      name "ovirt3"
       description <<-DESC
-      Vagrant plugin to manage oVirt machines.
+      Vagrant plugin to manage oVirt v3 machines.
       DESC
 
-      config("ovirt", :provider) do
+      config("ovirt3", :provider) do
         require_relative "config"
         Config
       end
 
-      provider "ovirt" do
+      provider "ovirt3" do
         # Setup logging and i18n
         setup_logging
         setup_i18n
@@ -62,7 +62,7 @@ module VagrantPlugins
         # Set the logging level on all "vagrant" namespaced
         # logs as long as we have a valid level.
         if level
-          logger = Log4r::Logger.new("vagrant_ovirt")
+          logger = Log4r::Logger.new("vagrant_ovirt3")
           logger.outputters = Log4r::Outputter.stderr
           logger.level = level
           logger = nil

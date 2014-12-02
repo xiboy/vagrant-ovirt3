@@ -1,5 +1,5 @@
 require 'log4r'
-require 'vagrant-ovirt/util/timer'
+require 'vagrant-ovirt3/util/timer'
 require 'vagrant/util/retryable'
 
 module VagrantPlugins
@@ -12,7 +12,7 @@ module VagrantPlugins
         include Vagrant::Util::Retryable
 
         def initialize(app, env)
-          @logger = Log4r::Logger.new("vagrant_ovirt::action::wait_till_up")
+          @logger = Log4r::Logger.new("vagrant_ovirt3::action::wait_till_up")
           @app = app
         end
 
@@ -26,7 +26,7 @@ module VagrantPlugins
           # Wait for VM to obtain an ip address.
           env[:ip_address] = nil
           env[:metrics]["instance_ip_time"] = Util::Timer.time do
-            env[:ui].info(I18n.t("vagrant_ovirt.waiting_for_ip"))
+            env[:ui].info(I18n.t("vagrant_ovirt3.waiting_for_ip"))
             #retryable(:on => Fog::Errors::TimeoutError, :tries => 300) do
             for i in 1..300
               # If we're interrupted don't worry about waiting
@@ -52,7 +52,7 @@ module VagrantPlugins
           # Machine has ip address assigned, now wait till we are able to
           # connect via ssh.
           env[:metrics]["instance_ssh_time"] = Util::Timer.time do
-            env[:ui].info(I18n.t("vagrant_ovirt.waiting_for_ssh"))
+            env[:ui].info(I18n.t("vagrant_ovirt3.waiting_for_ssh"))
             retryable(:on => Fog::Errors::TimeoutError, :tries => 60) do
               # If we're interrupted don't worry about waiting
               next if env[:interrupted]
@@ -66,7 +66,7 @@ module VagrantPlugins
           @logger.info("Time for SSH ready: #{env[:metrics]["instance_ssh_time"]}")
 
           # Booted and ready for use.
-          env[:ui].info(I18n.t("vagrant_ovirt.ready"))
+          env[:ui].info(I18n.t("vagrant_ovirt3.ready"))
           
           @app.call(env)
         end

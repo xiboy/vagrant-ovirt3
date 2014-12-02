@@ -33,7 +33,7 @@ module VagrantPlugins
               hostpath = hostpath.gsub(/^(\w):/) { "/#{$1}" }
             end
 
-            env[:ui].info(I18n.t("vagrant_ovirt.rsync_folder",
+            env[:ui].info(I18n.t("vagrant_ovirt3.rsync_folder",
                                 :hostpath => hostpath,
                                 :guestpath => guestpath))
 

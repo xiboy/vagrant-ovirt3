@@ -1,5 +1,5 @@
 en:
-  vagrant_ovirt:
+  vagrant_ovirt3:
     creating_vm: |-
       Creating VM with the following settings...
     destroy_vm: |-

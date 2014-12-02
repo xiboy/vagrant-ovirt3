@@ -36,14 +36,21 @@ fi
 
 
 # Enable EPEL and Puppet repositories.
-if [ $RHEL_MAJOR_VERSION -eq 5 ]; then
+if [[ $RHEL_MAJOR_VERSION -eq 5 ]]; then
   yum install -y \
     http://ftp.astral.ro/mirrors/fedora/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm \
-    https://yum.puppetlabs.com/el/5/products/x86_64/puppetlabs-release-5-7.noarch.rpm
-else
+    https://yum.puppetlabs.com/puppetlabs-release-el-5.noarch.rpm
+elif [[ $RHEL_MAJOR_VERSION -eq 6 ]]; then
   yum install -y \
     http://ftp.astral.ro/mirrors/fedora/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm \
-    https://yum.puppetlabs.com/el/6/products/x86_64/puppetlabs-release-6-7.noarch.rpm
+    https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
+elif [[ $RHEL_MAJOR_VERSION -eq 7 ]]; then
+  yum install -y \
+    http://ftp.astral.ro/mirrors/fedora/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm \
+    https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+else
+  echo "Is this a valid major release?"
+  exit 1
 fi
 
 # Install some required software.

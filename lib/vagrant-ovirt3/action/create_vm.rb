@@ -8,7 +8,7 @@ module VagrantPlugins
         include Vagrant::Util::Retryable
 
         def initialize(app, env)
-          @logger = Log4r::Logger.new("vagrant_ovirt::action::create_vm")
+          @logger = Log4r::Logger.new("vagrant_ovirt3::action::create_vm")
           @app = app
         end
 
@@ -42,7 +42,7 @@ module VagrantPlugins
           end
 
           # Output the settings we're going to use to the user
-          env[:ui].info(I18n.t("vagrant_ovirt.creating_vm"))
+          env[:ui].info(I18n.t("vagrant_ovirt3.creating_vm"))
           env[:ui].info(" -- Name:          #{name}")
           env[:ui].info(" -- Cpus:          #{cpus}")
           env[:ui].info(" -- Memory:        #{memory_size/1024}M")
@@ -75,7 +75,7 @@ module VagrantPlugins
           env[:machine].id = server.id
 
           # Wait till all volumes are ready.
-          env[:ui].info(I18n.t("vagrant_ovirt.wait_for_ready_vm"))
+          env[:ui].info(I18n.t("vagrant_ovirt3.wait_for_ready_vm"))
           for i in 0..10
             ready = true
             server = env[:ovirt_compute].servers.get(env[:machine].id.to_s)
@@ -100,7 +100,7 @@ module VagrantPlugins
           return if env["vagrant.error"].is_a?(Vagrant::Errors::VagrantError)
 
           # Undo the import
-          env[:ui].info(I18n.t("vagrant_ovirt.error_recovering"))
+          env[:ui].info(I18n.t("vagrant_ovirt3.error_recovering"))
           destroy_env = env.dup
           destroy_env.delete(:interrupted)
           destroy_env[:config_validate] = false
