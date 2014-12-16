@@ -78,6 +78,7 @@ This provider exposes quite a few provider-specific configuration options:
 * `password` - Password to access oVirt.
 * `datacenter` - oVirt datacenter name, where machines will be created.
 * `cluster` - oVirt cluster name. Defaults to first cluster found.
+* `ca_no_verify` - Set to `true` to not verify TLS certificates.
 
 ### Domain Specific Options
 
