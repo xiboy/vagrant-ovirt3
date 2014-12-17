@@ -2,10 +2,17 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+  config.vm.box = 'ovirt3'
+  config.vm.box_url = 'https://raw.github.com/myoung34/vagrant-ovirt3/master/example_box/dummy.box'
+
   config.vm.provider :ovirt3 do |ovirt|
     ovirt.url = "https://ovirt.example.com:443"
-    ovirt.username = "Username"
-    ovirt.password = "Secret"
+    ovirt.username = "username"
+    ovirt.password = "secret"
     ovirt.datacenter = "Datacenter name"
+    ovirt.template = "Template name"
+    ovirt.quota = "Quota name"
+    ovirt.cpus = 1
+    ovirt.memory = 512
   end
 end
