@@ -32,11 +32,3 @@ module VagrantPlugins
     end
   end
 end
-
-# Set default provider with bash environment variable like this:
-# export VAGRANT_DEFAULT_PROVIDER=ovirt3
-Vagrant::Environment.class_eval do
-  def default_provider
-    (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
-  end
-end
