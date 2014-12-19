@@ -7,6 +7,10 @@ module VagrantPlugins
         error_namespace("vagrant_ovirt3.errors")
       end
 
+      class RsyncError < VagrantOVirtError
+        error_key(:rsync_error)
+      end
+
       class FogOVirtConnectionError < VagrantOVirtError
         error_key(:fog_ovirt_connection_error)
       end
