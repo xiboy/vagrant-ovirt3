@@ -46,7 +46,7 @@ elif [[ $RHEL_MAJOR_VERSION -eq 6 ]]; then
     https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
 elif [[ $RHEL_MAJOR_VERSION -eq 7 ]]; then
   yum install -y \
-    http://ftp.astral.ro/mirrors/fedora/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm \
+    http://ftp.astral.ro/mirrors/fedora/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm \
     https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
 else
   echo "Is this a valid major release?"
