@@ -58,7 +58,7 @@ your information where necessary.
 ```ruby
 Vagrant.configure('2') do |config|
   config.vm.box = 'ovirt'
-  config.vm.box_url = 'https://raw.github.com/myoung34/vagrant-ovirt3/master/example_box/ovirt.box'
+  config.vm.box_url = 'https://github.com/myoung34/vagrant-ovirt3/blob/master/example_box/dummy.box?raw=true'
 
   config.vm.network :private_network, 
     :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0', #normal network configuration
