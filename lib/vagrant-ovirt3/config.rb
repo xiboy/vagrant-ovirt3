@@ -30,6 +30,8 @@ module VagrantPlugins
         @template   = UNSET_VALUE
         @console    = UNSET_VALUE
         @disk_size  = UNSET_VALUE
+
+        @ca_no_verify = UNSET_VALUE
       end
 
       def finalize!
@@ -45,6 +47,8 @@ module VagrantPlugins
         @template = 'Blank' if @template == UNSET_VALUE
         @console = 'spice' if @console == UNSET_VALUE
         @disk_size = nil if @disk_size == UNSET_VALUE
+
+        @ca_no_verify = false if @ca_no_verify == UNSET_VALUE
       end
 
       def validate(machine)
