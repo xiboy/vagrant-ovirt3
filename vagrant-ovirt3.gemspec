@@ -16,9 +16,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = VagrantPlugins::OVirtProvider::VERSION
 
-  gem.add_runtime_dependency "fog", "~> 1.25"
-  gem.add_runtime_dependency 'rbovirt', '~> 0.0', '>= 0.0.30'
-
+  gem.add_runtime_dependency "fog", "~> 1.27"
+  gem.add_runtime_dependency 'rbovirt', '~> 0.0', '>= 0.0.31'
 
   gem.add_development_dependency 'rake', '~> 0'
 end
