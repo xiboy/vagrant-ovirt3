@@ -88,3 +88,8 @@ en:
       long_running: |-
         The oVirt domain is running. To stop this machine, you can run
         `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
+      short_up: |-
+        running
+      long_up: |-
+        The oVirt domain is running. To stop this machine, you can run
+        `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
