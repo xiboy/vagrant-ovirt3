@@ -17,6 +17,7 @@ module VagrantPlugins
       attr_accessor :console
       attr_accessor :disk_size
 
+      # TODO: change 'ca_cert_store' to 'ca_cert' once rbovirt PR #55 merges.
       attr_accessor :ca_no_verify
       attr_accessor :ca_cert_store
       attr_accessor :ca_cert_file
