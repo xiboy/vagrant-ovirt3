@@ -34,6 +34,8 @@ module VagrantPlugins
           conn_attr[:ovirt_username] = config.username if config.username
           conn_attr[:ovirt_password] = config.password if config.password
           conn_attr[:ovirt_ca_no_verify] = config.ca_no_verify if config.ca_no_verify
+          conn_attr[:ovirt_ca_cert_store] = config.ca_cert_store if config.ca_cert_store
+          conn_attr[:ovirt_ca_cert_file] = config.ca_cert_file if config.ca_cert_file
 
           # We need datacenter id in fog connection initialization. But it's
           # much simpler to use datacenter name in Vagrantfile. So get
@@ -76,7 +78,10 @@ module VagrantPlugins
             credentials[:ovirt_password],
             credentials[:ovirt_url],
             { :datacenter_id => credentials[:ovirt_datacenter],
-              :ca_no_verify => credentials[:ovirt_ca_no_verify] }
+              :ca_no_verify => credentials[:ovirt_ca_no_verify],
+              :ca_cert_store => credentials[:ovirt_ca_cert_store],
+              :ca_cert_file => credentials[:ovirt_ca_cert_file]
+            }
           )
         end
       end

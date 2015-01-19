@@ -17,6 +17,10 @@ module VagrantPlugins
       attr_accessor :console
       attr_accessor :disk_size
 
+      attr_accessor :ca_no_verify
+      attr_accessor :ca_cert_store
+      attr_accessor :ca_cert_file
+
       def initialize
         @url            = UNSET_VALUE
         @username       = UNSET_VALUE
@@ -32,6 +36,8 @@ module VagrantPlugins
         @disk_size  = UNSET_VALUE
 
         @ca_no_verify = UNSET_VALUE
+        @ca_cert_store = UNSET_VALUE
+        @ca_cert_file = UNSET_VALUE
       end
 
       def finalize!
@@ -49,6 +55,8 @@ module VagrantPlugins
         @disk_size = nil if @disk_size == UNSET_VALUE
 
         @ca_no_verify = false if @ca_no_verify == UNSET_VALUE
+        @ca_cert_store = nil if @ca_cert_store == UNSET_VALUE
+        @ca_cert_file = nil if @ca_cert_file == UNSET_VALUE
       end
 
       def validate(machine)
