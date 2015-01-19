@@ -8,6 +8,9 @@ allowing Vagrant to control and provision machines in oVirt and RHEV.
 In this document, both oVirt and RHEV names are used interchangeably and
 represent the same platform on top of which this provider should work.
 
+## Version 1.1.2
+* Added missing certificate options and fixed usage on `ca_no_verify`
+
 ## Version 1.1.1
 * Added missing locales
 * Fixed box url in usage
