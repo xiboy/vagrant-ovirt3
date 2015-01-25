@@ -9,6 +9,7 @@ module VagrantPlugins
       attr_accessor :password
       attr_accessor :datacenter
       attr_accessor :cluster
+      attr_accessor :filtered_api
 
       # Domain specific settings used while creating new machine.
       attr_accessor :memory
@@ -28,6 +29,7 @@ module VagrantPlugins
         @password       = UNSET_VALUE
         @datacenter     = UNSET_VALUE
         @cluster        = UNSET_VALUE
+        @filtered_api   = UNSET_VALUE
 
         # Domain specific settings.
         @memory     = UNSET_VALUE
@@ -47,6 +49,7 @@ module VagrantPlugins
         @password = nil if @password == UNSET_VALUE
         @datacenter = nil if @datacenter == UNSET_VALUE
         @cluster = nil if @cluster == UNSET_VALUE
+        @filtered_api = false if @filtered_api == UNSET_VALUE
 
         # Domain specific settings.
         @memory = 512 if @memory == UNSET_VALUE
