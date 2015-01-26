@@ -8,51 +8,10 @@ allowing Vagrant to control and provision machines in oVirt and RHEV.
 In this document, both oVirt and RHEV names are used interchangeably and
 represent the same platform on top of which this provider should work.
 
-## Version 1.1.2
-* Added missing certificate options and fixed usage on `ca_no_verify`
-
-## Version 1.1.1
-* Added missing locales
-* Fixed box url in usage
-
-## Version 1.1.0
-* Added `ca_no_verify` configuration parameter to allow self-signed certificates, etc.
-* Fixed missing RsyncError locale lookup
-* Fixed base dummy box
-* Removed default provider, breaks with Vagrant 1.7
-* Fix broken EPEL EL7 link.
-* Check whether synced folder is disabled before trying to rsync.
-
-## Version 1.0.0
-* Complete overhaul of naming schemes. Vagrant-ovirt upstream is deprecated. The provider going forward is 'ovirt3' to allow gem/plugin availability.
-* Volumes are automatically resized
-
-## Version 0.2.1
-* Removed automatic resizing, will be readded when upstream fog changes are committed to rubygems.org
-
-## Features (Version 0.2.0)
-* ~~Volumes are automatically resized~~
-* Replaced configuration to get IP configuration with REST API usage
-
-## Features (Version 0.1.0)
-
-* Vagrant `up` and `destroy` commands.
-* Create and boot oVirt machines from templates.
-* SSH into domains.
-* Provision domains with any built-in Vagrant provisioner.
-* Minimal synced folder support via `rsync`.
-
-## Future work
-
-* Validation of configuration parameters.
-* Test it on other versions of oVirt and RHEV.
-* Template preparation scripts for other distros than RHEL.
-* Vagrant commands `halt`, `resume`, `ssh`, `provision`, `suspend` and `resume`.
-* Take a look at [open issues](https://github.com/myoung34/vagrant-ovirt3/issues?state=open).
-
 ## Installation
 
 ```
+$ vagrant plugin uninstall vagrant-ovirt
 $ vagrant plugin install vagrant-ovirt3
 $ vagrant up --provider=ovirt3
 ```
