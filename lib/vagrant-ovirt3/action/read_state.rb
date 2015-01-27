@@ -21,9 +21,7 @@ module VagrantPlugins
 
           # Find the machine
           server = ovirt.servers.get(machine.id)
-          if server.nil? || [:"shutting-down", :terminated].include?(server.status.to_sym)
-            # The machine can't be found
-            @logger.info("Machine not found or terminated, assuming it got destroyed.")
+          if server.nil?
             machine.id = nil
             return :not_created
           end

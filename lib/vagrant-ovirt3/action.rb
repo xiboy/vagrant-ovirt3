@@ -13,7 +13,9 @@ module VagrantPlugins
           b.use ConnectOVirt
           b.use Call, IsCreated do |env, b2|
             if env[:result]
-              b2.use MessageAlreadyCreated
+              b2.use StartVM
+              b2.use WaitTillUp
+              b2.use SyncFolders
               next
             end
 
@@ -29,6 +31,26 @@ module VagrantPlugins
             b2.use WaitTillUp
             b2.use SyncFolders
           end
+        end
+      end
+
+      def self.action_halt
+        with_ovirt do |b|
+          b.use HaltVM
+        end
+      end
+
+      def self.action_suspend
+        with_ovirt do |b|
+          b.use SuspendVM
+        end
+      end
+
+      def self.action_resume
+        with_ovirt do |b|
+          b.use StartVM
+          b.use WaitTillUp
+          b.use SyncFolders
         end
       end
 
@@ -119,12 +141,29 @@ module VagrantPlugins
       autoload :ResizeDisk, action_root.join("resize_disk")
       autoload :StartVM, action_root.join("start_vm")
       autoload :MessageNotCreated, action_root.join("message_not_created")
+      autoload :HaltVM, action_root.join("halt_vm")
+      autoload :SuspendVM, action_root.join("suspend_vm")
       autoload :DestroyVM, action_root.join("destroy_vm")
       autoload :ReadState, action_root.join("read_state")
       autoload :ReadSSHInfo, action_root.join("read_ssh_info")
       autoload :WaitTillUp, action_root.join("wait_till_up")
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
+
+      private
+      def self.with_ovirt
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsCreated do |env, b2|
+            if !env[:result]
+              b2.use MessageNotCreated
+              next
+            end
+            b2.use ConnectOVirt
+            yield b2
+          end
+        end
+      end
     end
   end
 end

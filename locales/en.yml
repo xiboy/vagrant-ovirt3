@@ -8,6 +8,10 @@ en:
       VM is not created. Please run `vagrant up` first.
     starting_vm: |-
       Starting VM.
+    suspend_vm: |-
+      Suspending VM...
+    halt_vm: |-
+      Halting VM...
     error_recovering: |-
       An error occured. Recovering..
     waiting_for_ip: |-
