@@ -24,6 +24,8 @@ en:
       Waiting for VM to become "ready" to start...
     already_created: |-
       VM is already created.
+    already_up: |-
+      VM is already up.
     ready: |-
       Machine is booted and ready for use!
     wait_for_ready_volume: |-

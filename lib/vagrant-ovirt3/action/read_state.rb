@@ -16,6 +16,8 @@ module VagrantPlugins
           @app.call(env)
         end
 
+        # Possible states include (but may not be limited to):
+        # :not_created, :up, :down, :saving_state, :suspended
         def read_state(ovirt, machine)
           return :not_created if machine.id.nil?
 
@@ -27,7 +29,7 @@ module VagrantPlugins
           end
 
           # Return the state
-          return server.status
+          return server.status.to_sym
         end
       end
     end

@@ -11,22 +11,23 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
           b.use ConnectOVirt
-          b.use Call, IsCreated do |env, b2|
-            if env[:result]
-              b2.use StartVM
-              b2.use WaitTillUp
-              b2.use SyncFolders
+          b.use Call, ReadState do |env, b2|
+            if env[:machine_state_id] == :up
+              b2.use MessageAlreadyUp
               next
             end
 
-            b2.use SetNameOfDomain
-            b2.use CreateVM
-            b2.use ResizeDisk
+            if env[:machine_state_id] == :not_created
+              b2.use SetNameOfDomain
+              b2.use CreateVM
+              b2.use ResizeDisk
 
-            b2.use Provision
-            b2.use CreateNetworkInterfaces
+              b2.use Provision
+              b2.use CreateNetworkInterfaces
 
-            b2.use SetHostname
+              b2.use SetHostname
+            end
+
             b2.use StartVM
             b2.use WaitTillUp
             b2.use SyncFolders
@@ -149,6 +150,7 @@ module VagrantPlugins
       autoload :WaitTillUp, action_root.join("wait_till_up")
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
+      autoload :MessageAlreadyUp, action_root.join("message_already_up")
 
       private
       def self.with_ovirt
