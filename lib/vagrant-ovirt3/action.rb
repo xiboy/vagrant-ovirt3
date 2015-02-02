@@ -17,6 +17,11 @@ module VagrantPlugins
               next
             end
 
+            if env[:machine_state_id] == :saving_state
+              b2.use MessageSavingState
+              next
+            end
+
             if env[:machine_state_id] == :not_created
               b2.use SetNameOfDomain
               b2.use CreateVM
@@ -36,19 +41,35 @@ module VagrantPlugins
       end
 
       def self.action_halt
-        with_ovirt do |b|
+        with_ovirt do |env, b|
+          if env[:machine_state_id] != :up
+            b.use MessageNotUp
+            next
+          end
           b.use HaltVM
         end
       end
 
       def self.action_suspend
-        with_ovirt do |b|
+        with_ovirt do |env, b|
+          if env[:machine_state_id] != :up
+            b.use MessageNotUp
+            next
+          end
           b.use SuspendVM
         end
       end
 
       def self.action_resume
-        with_ovirt do |b|
+        with_ovirt do |env, b|
+          if env[:machine_state_id] == :saving_state
+            b.use MessageSavingState
+            next
+          end
+          if env[:machine_state_id] != :suspended
+            b.use MessageNotSuspended
+            next
+          end
           b.use StartVM
           b.use WaitTillUp
           b.use SyncFolders
@@ -96,9 +117,13 @@ module VagrantPlugins
       def self.action_ssh
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use Call, IsCreated do |env, b2|
-            if !env[:result]
+          b.use Call, ReadState do |env, b2|
+            if env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
+              next
+            end
+            if env[:machine_state_id] != :up
+              b2.use MessageNotUp
               next
             end
             b2.use SSHExec
@@ -110,8 +135,12 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b2|
-            if !env[:result]
+            if env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
+              next
+            end
+            if env[:machine_state_id] != :up
+              b2.use MessageNotUp
               next
             end
             b2.use SSHRun
@@ -151,18 +180,21 @@ module VagrantPlugins
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageAlreadyUp, action_root.join("message_already_up")
+      autoload :MessageNotUp, action_root.join("message_not_up")
+      autoload :MessageSavingState, action_root.join("message_saving_state")
+      autoload :MessageNotSuspended, action_root.join("message_not_suspended")
 
       private
       def self.with_ovirt
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use Call, IsCreated do |env, b2|
-            if !env[:result]
+          b.use ConnectOVirt
+          b.use Call, ReadState do |env, b2|
+            if !env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
               next
             end
-            b2.use ConnectOVirt
-            yield b2
+            yield env, b2
           end
         end
       end
