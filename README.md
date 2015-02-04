@@ -1,4 +1,6 @@
 # Vagrant oVirt/RHEV v3 Provider
+[![Gem Version](https://badge.fury.io/rb/vagrant-ovirt3.svg)](http://badge.fury.io/rb/vagrant-ovirt3)
+[![vagrant-ovirt3 API Documentation](https://www.omniref.com/ruby/gems/vagrant-ovirt3.png)](https://www.omniref.com/ruby/gems/vagrant-ovirt3)
 
 This is a [Vagrant](http://www.vagrantup.com) 1.1+ plugin that adds an
 [oVirt v3](http://ovirt.org) and
@@ -26,10 +28,10 @@ Vagrant.configure('2') do |config|
   config.vm.box = 'ovirt'
   config.vm.box_url = 'https://github.com/myoung34/vagrant-ovirt3/blob/master/example_box/dummy.box?raw=true'
 
-  config.vm.network :private_network, 
+  config.vm.network :private_network,
     :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0', #normal network configuration
     :ovirt__ip => '10.101.55.72', :ovirt__network_name => 'ovirtmgmt', :ovirt__gateway => '10.101.55.1' # oVirt specific information, overwrites previous on oVirt provider
-    
+
   config.vm.provider :ovirt3 do |ovirt|
     ovirt.template = 'template'
     ovirt.cpus = 1
@@ -95,14 +97,14 @@ Note, the network information will differ between the two. Under virtualbox, it 
 Vagrant.configure('2') do |config|
   config.vm.box = 'mybox'
 
-   config.vm.network :private_network, 
+   config.vm.network :private_network,
     :ip => '192.168.56.100', :nictype => 'virtio', :netmask => '255.255.255.0' #normal network configuration
     :ovirt__ip => '10.101.55.72', :ovirt__network_name => 'ovirtmgmt', :ovirt__gateway => '10.101.55.1', # oVirt specific information, overwrites previous on oVirt provider
-    
+
   config.vm.provider :virtualbox do |vb|
     vb.customize [
       # Key                Value
-      'modifyvm',          :id, 
+      'modifyvm',          :id,
       '--cpuexecutioncap', '90',
       '--memory',          '1376',
       '--nictype2',        'virtio',
@@ -127,8 +129,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :puppet do |puppet|
     puppet.options = [
-      "--environment development", 
-      '--hiera_config=/etc/puppet/hiera/hiera.yaml', 
+      "--environment development",
+      '--hiera_config=/etc/puppet/hiera/hiera.yaml',
     ]
     puppet.manifests_path = './manifests'
     puppet.manifest_file = 'default.pp'
@@ -188,4 +190,3 @@ The box is a tarball containing:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
