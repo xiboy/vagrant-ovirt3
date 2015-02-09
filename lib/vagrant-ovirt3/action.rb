@@ -117,6 +117,7 @@ module VagrantPlugins
       def self.action_ssh
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
+          b.use ConnectOVirt
           b.use Call, ReadState do |env, b2|
             if env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
