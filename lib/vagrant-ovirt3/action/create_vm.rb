@@ -34,12 +34,14 @@ module VagrantPlugins
           env[:ovirt_cluster] = cluster
 
           # Get template
-          template = env[:ovirt_compute].templates.all.find { |t|
+          template = env[:ovirt_compute].templates.all.find_all { |t|
+            t.id == config.template or t.name == config.template
+          }
+          .sort_by { |t| t.raw.version.version_number.to_i }.reverse
+          .find { |t|
             v = t.raw.version
             cv = config.template_version
-            t.id == config.template or
-              (t.name == config.template and
-               (cv.nil? or (cv == v.version_number or cv == v.version_name)))
+            cv.nil? or (cv.to_i == v.version_number.to_i or cv == v.version_name)
           }
           if template == nil
             raise Error::NoTemplateError,
