@@ -34,8 +34,13 @@ module VagrantPlugins
           env[:ovirt_cluster] = cluster
 
           # Get template
-          template = OVirtProvider::Util::Collection.find_matching(
-            env[:ovirt_compute].templates.all, config.template)
+          template = env[:ovirt_compute].templates.all.find { |t|
+            v = t.raw.version
+            cv = config.template_version
+            t.id == config.template or
+              (t.name == config.template and
+               (cv.nil? or (cv == v.version_number or cv == v.version_name)))
+          }
           if template == nil
             raise Error::NoTemplateError,
               :template_name => config.template

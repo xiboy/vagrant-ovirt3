@@ -15,6 +15,7 @@ module VagrantPlugins
       attr_accessor :memory
       attr_accessor :cpus
       attr_accessor :template
+      attr_accessor :template_version
       attr_accessor :console
       attr_accessor :disk_size
 
@@ -35,6 +36,7 @@ module VagrantPlugins
         @memory     = UNSET_VALUE
         @cpus       = UNSET_VALUE
         @template   = UNSET_VALUE
+        @template_version = UNSET_VALUE
         @console    = UNSET_VALUE
         @disk_size  = UNSET_VALUE
 
@@ -55,6 +57,7 @@ module VagrantPlugins
         @memory = 512 if @memory == UNSET_VALUE
         @cpus = 1 if @cpus == UNSET_VALUE
         @template = 'Blank' if @template == UNSET_VALUE
+        @template_version = nil if @template_version == UNSET_VALUE
         @console = 'spice' if @console == UNSET_VALUE
         @disk_size = nil if @disk_size == UNSET_VALUE
 
