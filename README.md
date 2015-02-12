@@ -137,6 +137,16 @@ Vagrant.configure('2') do |config|
   end
 ```
 
+### Parallel Support
+
+By default VMs will be created and provisioned in parallel.  If this causes
+resource issues or you want VMs to be created in series use --no-parallel
+
+```
+$ vagrant up 
+$ vagrant up --no-parallel
+```
+
 ### How Project Is Created
 
 Vagrant goes through steps below when creating new project:
