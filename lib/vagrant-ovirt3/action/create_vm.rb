@@ -21,6 +21,9 @@ module VagrantPlugins
           console = config.console
           cpus = config.cpus
           memory_size = config.memory*1024
+          user_data = config.user_data ?
+            Base64::encode64(config.user_data) :
+            nil
 
           # Get cluster
           if config.cluster == nil
@@ -64,6 +67,9 @@ module VagrantPlugins
           if config.disk_size
             env[:ui].info(" -- Disk size:     #{config.disk_size}G")
           end
+          if config.user_data
+            env[:ui].info(" -- User data:\n#{config.user_data}")
+          end
 
           # Create oVirt VM.
           attr = {
@@ -73,6 +79,7 @@ module VagrantPlugins
               :cluster  => cluster.id,
               :template => template.id,
               :display  => {:type => console },
+              :user_data => user_data,
           }
 
           begin
