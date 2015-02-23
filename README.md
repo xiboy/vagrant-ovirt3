@@ -66,6 +66,8 @@ This provider exposes quite a few provider-specific configuration options:
 * `memory` - Amount of memory in MBytes. Defaults to 512 if not set.
 * `cpus` - Number of virtual cpus. Defaults to 1 if not set.
 * `template` - Name of template from which new VM should be created.
+* `template_version` - If a template has sub-versions, specify a sub-version
+ number or name.
 * `console` - Console type to use. Can be 'vnc' or 'spice'. Default is 'spice'
 * `disk_size` - If set, the first volume of the VM will automatically be resized
  to the specified value. disk_size is in GB
