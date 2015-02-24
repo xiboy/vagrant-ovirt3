@@ -50,17 +50,20 @@ module VagrantPlugins
             raise Error::NoTemplateError,
               :template_name => config.template
           end
+          ver = template.raw.version
+          if !ver.version_name.nil? and !ver.version_name.empty?
+            version_string = "#{ver.version_name} (#{ver.version_number.to_i})"
+          else
+            version_string = "#{ver.version_number.to_i}"
+          end
 
           # Output the settings we're going to use to the user
-          ver = template.raw.version
           env[:ui].info(I18n.t("vagrant_ovirt3.creating_vm"))
           env[:ui].info(" -- Name:          #{name}")
           env[:ui].info(" -- Cpus:          #{cpus}")
           env[:ui].info(" -- Memory:        #{memory_size/1024}M")
           env[:ui].info(" -- Template:      #{template.name}")
-          if ver.version_name or ver.version_number
-            env[:ui].info(" -- Version:       #{ver.version_name || ver.version_number}")
-          end
+          env[:ui].info(" -- Version:       #{version_string}")
           env[:ui].info(" -- Datacenter:    #{config.datacenter}")
           env[:ui].info(" -- Cluster:       #{cluster.name}")
           env[:ui].info(" -- Console:       #{console}")
