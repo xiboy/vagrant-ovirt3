@@ -13,6 +13,7 @@ module VagrantPlugins
           b.use ConnectOVirt
           b.use Call, ReadState do |env, b2|
             if env[:machine_state_id] == :up
+              b2.use SyncFolders
               b2.use MessageAlreadyUp
               next
             end
