@@ -16,20 +16,20 @@ module VagrantPlugins
           @app.call(env)
         end
 
+        # Possible states include (but may not be limited to):
+        # :not_created, :up, :down, :saving_state, :suspended
         def read_state(ovirt, machine)
           return :not_created if machine.id.nil?
 
           # Find the machine
           server = ovirt.servers.get(machine.id)
-          if server.nil? || [:"shutting-down", :terminated].include?(server.status.to_sym)
-            # The machine can't be found
-            @logger.info("Machine not found or terminated, assuming it got destroyed.")
+          if server.nil?
             machine.id = nil
             return :not_created
           end
 
           # Return the state
-          return server.status
+          return server.status.to_sym
         end
       end
     end

@@ -11,24 +11,69 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
           b.use ConnectOVirt
-          b.use Call, IsCreated do |env, b2|
-            if env[:result]
-              b2.use MessageAlreadyCreated
+          b.use Call, ReadState do |env, b2|
+            if env[:machine_state_id] == :up
+              b2.use SyncFolders
+              b2.use MessageAlreadyUp
               next
             end
 
-            b2.use SetNameOfDomain
-            b2.use CreateVM
-            b2.use ResizeDisk
+            if env[:machine_state_id] == :saving_state
+              b2.use MessageSavingState
+              next
+            end
 
-            b2.use Provision
-            b2.use CreateNetworkInterfaces
+            if env[:machine_state_id] == :not_created
+              b2.use SetNameOfDomain
+              b2.use CreateVM
+              b2.use ResizeDisk
 
-            b2.use SetHostname
+              b2.use Provision
+              b2.use CreateNetworkInterfaces
+
+              b2.use SetHostname
+            end
+
             b2.use StartVM
             b2.use WaitTillUp
             b2.use SyncFolders
           end
+        end
+      end
+
+      def self.action_halt
+        with_ovirt do |env, b|
+          if env[:machine_state_id] != :up
+            b.use MessageNotUp
+            next
+          end
+          b.use HaltVM
+        end
+      end
+
+      def self.action_suspend
+        with_ovirt do |env, b|
+          if env[:machine_state_id] != :up
+            b.use MessageNotUp
+            next
+          end
+          b.use SuspendVM
+        end
+      end
+
+      def self.action_resume
+        with_ovirt do |env, b|
+          if env[:machine_state_id] == :saving_state
+            b.use MessageSavingState
+            next
+          end
+          if env[:machine_state_id] != :suspended
+            b.use MessageNotSuspended
+            next
+          end
+          b.use StartVM
+          b.use WaitTillUp
+          b.use SyncFolders
         end
       end
 
@@ -73,9 +118,14 @@ module VagrantPlugins
       def self.action_ssh
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use Call, IsCreated do |env, b2|
-            if !env[:result]
+          b.use ConnectOVirt
+          b.use Call, ReadState do |env, b2|
+            if env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
+              next
+            end
+            if env[:machine_state_id] != :up
+              b2.use MessageNotUp
               next
             end
             b2.use SSHExec
@@ -87,8 +137,12 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b2|
-            if !env[:result]
+            if env[:machine_state_id] == :not_created
               b2.use MessageNotCreated
+              next
+            end
+            if env[:machine_state_id] != :up
+              b2.use MessageNotUp
               next
             end
             b2.use SSHRun
@@ -119,12 +173,33 @@ module VagrantPlugins
       autoload :ResizeDisk, action_root.join("resize_disk")
       autoload :StartVM, action_root.join("start_vm")
       autoload :MessageNotCreated, action_root.join("message_not_created")
+      autoload :HaltVM, action_root.join("halt_vm")
+      autoload :SuspendVM, action_root.join("suspend_vm")
       autoload :DestroyVM, action_root.join("destroy_vm")
       autoload :ReadState, action_root.join("read_state")
       autoload :ReadSSHInfo, action_root.join("read_ssh_info")
       autoload :WaitTillUp, action_root.join("wait_till_up")
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
+      autoload :MessageAlreadyUp, action_root.join("message_already_up")
+      autoload :MessageNotUp, action_root.join("message_not_up")
+      autoload :MessageSavingState, action_root.join("message_saving_state")
+      autoload :MessageNotSuspended, action_root.join("message_not_suspended")
+
+      private
+      def self.with_ovirt
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectOVirt
+          b.use Call, ReadState do |env, b2|
+            if !env[:machine_state_id] == :not_created
+              b2.use MessageNotCreated
+              next
+            end
+            yield env, b2
+          end
+        end
+      end
     end
   end
 end

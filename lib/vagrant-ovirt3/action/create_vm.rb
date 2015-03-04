@@ -21,6 +21,9 @@ module VagrantPlugins
           console = config.console
           cpus = config.cpus
           memory_size = config.memory*1024
+          user_data = config.user_data ?
+            Base64::encode64(config.user_data) :
+            nil
 
           # Get cluster
           if config.cluster == nil
@@ -34,11 +37,24 @@ module VagrantPlugins
           env[:ovirt_cluster] = cluster
 
           # Get template
-          template = OVirtProvider::Util::Collection.find_matching(
-            env[:ovirt_compute].templates.all, config.template)
+          template = env[:ovirt_compute].templates.all.find_all { |t|
+            t.id == config.template or t.name == config.template
+          }
+          .sort_by { |t| t.raw.version.version_number.to_i }.reverse
+          .find { |t|
+            v = t.raw.version
+            cv = config.template_version
+            cv.nil? or (cv.to_i == v.version_number.to_i or cv == v.version_name)
+          }
           if template == nil
             raise Error::NoTemplateError,
               :template_name => config.template
+          end
+          ver = template.raw.version
+          if !ver.version_name.nil? and !ver.version_name.empty?
+            version_string = "#{ver.version_name} (#{ver.version_number.to_i})"
+          else
+            version_string = "#{ver.version_number.to_i}"
           end
 
           # Output the settings we're going to use to the user
@@ -47,11 +63,15 @@ module VagrantPlugins
           env[:ui].info(" -- Cpus:          #{cpus}")
           env[:ui].info(" -- Memory:        #{memory_size/1024}M")
           env[:ui].info(" -- Template:      #{template.name}")
+          env[:ui].info(" -- Version:       #{version_string}")
           env[:ui].info(" -- Datacenter:    #{config.datacenter}")
           env[:ui].info(" -- Cluster:       #{cluster.name}")
           env[:ui].info(" -- Console:       #{console}")
           if config.disk_size
             env[:ui].info(" -- Disk size:     #{config.disk_size}G")
+          end
+          if config.user_data
+            env[:ui].info(" -- User data:\n#{config.user_data}")
           end
 
           # Create oVirt VM.
@@ -62,6 +82,7 @@ module VagrantPlugins
               :cluster  => cluster.id,
               :template => template.id,
               :display  => {:type => console },
+              :user_data => user_data,
           }
 
           begin
