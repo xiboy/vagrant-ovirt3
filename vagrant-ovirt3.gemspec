@@ -3,7 +3,9 @@ require File.expand_path('../lib/vagrant-ovirt3/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Marcus Young"]
-  gem.email         = ["myoung34@my.apsu.edu"]
+  gem.email	    = ["myoung34@my.apsu.edu"]
+  gem.authors       = ["Jackson Tang"]
+  gem.email         = ["tangjack@square-enix.com"]
   gem.description   = %q{Vagrant provider for oVirt and RHEV v3}
   gem.summary       = %q{This vagrant plugin provides the ability to create, control, and destroy virtual machines under oVirt/RHEV}
   gem.homepage      = "https://github.com/myoung34/vagrant-ovirt3"
