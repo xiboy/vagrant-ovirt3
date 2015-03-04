@@ -71,7 +71,7 @@ module VagrantPlugins
 
       def validate(machine)
         valid_console_types = ['vnc', 'spice']
-        raise Error::InvalidConsoleType,
+        raise Errors::InvalidConsoleType,
           :console => @console unless valid_console_types.include? @console
       end
     end

@@ -7,6 +7,10 @@ module VagrantPlugins
         error_namespace("vagrant_ovirt3.errors")
       end
 
+      class InvalidConsoleType < VagrantOVirtError
+        error_key(:console_error)
+      end
+
       class RsyncError < VagrantOVirtError
         error_key(:rsync_error)
       end

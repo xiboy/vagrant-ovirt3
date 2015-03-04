@@ -40,6 +40,8 @@ en:
     errors:
       fog_ovirt_connection_error: |-
         Error while connecting to oVirt: %{error_message}
+      console_error: |-
+        Invalid console type specified.
       no_datacenter_error: |-
         No usable datacenter found! Please check if datacenter specified in
         configuration is avaliable.

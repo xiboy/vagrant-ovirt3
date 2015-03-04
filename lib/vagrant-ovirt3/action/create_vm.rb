@@ -32,7 +32,7 @@ module VagrantPlugins
             cluster = OVirtProvider::Util::Collection.find_matching(
               env[:ovirt_compute].clusters.all, config.cluster)
           end
-          raise Error::NoClusterError if cluster == nil
+          raise Errors::NoClusterError if cluster == nil
           # TODO fill env also with other ovirtoptions.
           env[:ovirt_cluster] = cluster
 
@@ -47,7 +47,7 @@ module VagrantPlugins
             cv.nil? or (cv.to_i == v.version_number.to_i or cv == v.version_name)
           }
           if template == nil
-            raise Error::NoTemplateError,
+            raise Errors::NoTemplateError,
               :template_name => config.template
           end
           ver = template.raw.version
