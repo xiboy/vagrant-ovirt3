@@ -1,3 +1,4 @@
+# vim: ai ts=2 sts=2 et sw=2 ft=ruby
 begin
   require 'vagrant'
 rescue LoadError
@@ -31,6 +32,11 @@ module VagrantPlugins
 
         require_relative "provider"
         Provider
+      end
+
+      provider_capability("ovirt3", :nic_mac_addresses) do
+        require_relative "cap/nic_mac_addresses"
+        Cap::NicMacAddresses
       end
 
       # This initializes the internationalization strings.
