@@ -17,7 +17,7 @@ module VagrantPlugins
           config = env[:machine].provider_config
 
           # Gather some info about domain
-          name = env[:domain_name]
+          name = config.name.nil? ? env[:domain_name] : config.name
           console = config.console
           cpus = config.cpus
           memory_size = config.memory*1024
