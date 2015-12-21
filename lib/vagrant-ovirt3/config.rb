@@ -19,6 +19,7 @@ module VagrantPlugins
       attr_accessor :console
       attr_accessor :disk_size
       attr_accessor :user_data
+      attr_accessor :name
 
       # TODO: change 'ca_cert_store' to 'ca_cert' once rbovirt PR #55 merges.
       attr_accessor :ca_no_verify
@@ -41,6 +42,7 @@ module VagrantPlugins
         @console    = UNSET_VALUE
         @disk_size  = UNSET_VALUE
         @user_data  = UNSET_VALUE
+        @name       = UNSET_VALUE
 
         @ca_no_verify = UNSET_VALUE
         @ca_cert_store = UNSET_VALUE
@@ -63,6 +65,7 @@ module VagrantPlugins
         @console = 'spice' if @console == UNSET_VALUE
         @disk_size = nil if @disk_size == UNSET_VALUE
         @user_data = nil if @user_data == UNSET_VALUE
+        @name = nil if @name == UNSET_VALUE
 
         @ca_no_verify = false if @ca_no_verify == UNSET_VALUE
         @ca_cert_store = nil if @ca_cert_store == UNSET_VALUE
