@@ -17,7 +17,7 @@ module VagrantPlugins
           config = env[:machine].provider_config
 
           # Gather some info about domain
-          name = config.name.nil? ? env[:domain_name] : config.name
+          name = (config.name.nil? ? env[:domain_name] : config.name)[0,15]
           console = config.console
           cpus = config.cpus
           quota = config.quota
@@ -68,7 +68,9 @@ module VagrantPlugins
           env[:ui].info(" -- Datacenter:    #{config.datacenter}")
           env[:ui].info(" -- Cluster:       #{cluster.name}")
           env[:ui].info(" -- Console:       #{console}")
-          env[:ui].info(" -- Quota:         #{quota}")
+          if quota
+            env[:ui].info(" -- Quota:         #{quota}")
+          end
           if config.disk_size
             env[:ui].info(" -- Disk size:     #{config.disk_size}G")
           end
