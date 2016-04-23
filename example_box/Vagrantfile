@@ -11,8 +11,9 @@ Vagrant.configure("2") do |config|
     ovirt.password = "secret"
     ovirt.datacenter = "Datacenter name"
     ovirt.template = "Template name"
-    ovirt.quota = "Quota name"
+    ovirt.quota = "e92124b9-22f4-4cef-bcd6-b9ae22155dcd"
     ovirt.cpus = 1
     ovirt.memory = 512
+    ovirt.ca_no_verify = true
   end
 end

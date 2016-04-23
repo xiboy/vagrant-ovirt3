@@ -20,6 +20,7 @@ module VagrantPlugins
       attr_accessor :disk_size
       attr_accessor :user_data
       attr_accessor :name
+      attr_accessor :quota
 
       # TODO: change 'ca_cert_store' to 'ca_cert' once rbovirt PR #55 merges.
       attr_accessor :ca_no_verify
@@ -37,6 +38,7 @@ module VagrantPlugins
         # Domain specific settings.
         @memory     = UNSET_VALUE
         @cpus       = UNSET_VALUE
+        @quota      = UNSET_VALUE
         @template   = UNSET_VALUE
         @template_version = UNSET_VALUE
         @console    = UNSET_VALUE
@@ -60,6 +62,7 @@ module VagrantPlugins
         # Domain specific settings.
         @memory = 512 if @memory == UNSET_VALUE
         @cpus = 1 if @cpus == UNSET_VALUE
+        @quota = nil if @quota == UNSET_VALUE
         @template = 'Blank' if @template == UNSET_VALUE
         @template_version = nil if @template_version == UNSET_VALUE
         @console = 'spice' if @console == UNSET_VALUE

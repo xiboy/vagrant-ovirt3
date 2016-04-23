@@ -41,6 +41,8 @@ Vagrant.configure('2') do |config|
     ovirt.username = 'username'
     ovirt.password = 'password'
     ovirt.datacenter = 'datacenter'
+    ovirt.quota = "e92124b9-22f4-4cef-bcd6-b9ae22155dcd"
+    ovirt.ca_no_verify = true
   end
 end
 ```
@@ -60,6 +62,7 @@ This provider exposes quite a few provider-specific configuration options:
   option will be replaced with `ca_cert` in a future version).
 * `ca_cert_file` - Like `ca_cert_store`, but provides a file containing a single
   certificate.
+* `quota` - The ID of the quota to use. This can be retrieved via the REST API
 
 ### Domain Specific Options
 

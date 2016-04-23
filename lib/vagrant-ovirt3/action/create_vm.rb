@@ -20,6 +20,7 @@ module VagrantPlugins
           name = config.name.nil? ? env[:domain_name] : config.name
           console = config.console
           cpus = config.cpus
+          quota = config.quota
           memory_size = config.memory*1024
           user_data = config.user_data ?
             Base64::encode64(config.user_data) :
@@ -67,6 +68,7 @@ module VagrantPlugins
           env[:ui].info(" -- Datacenter:    #{config.datacenter}")
           env[:ui].info(" -- Cluster:       #{cluster.name}")
           env[:ui].info(" -- Console:       #{console}")
+          env[:ui].info(" -- Quota:         #{quota}")
           if config.disk_size
             env[:ui].info(" -- Disk size:     #{config.disk_size}G")
           end
@@ -76,13 +78,14 @@ module VagrantPlugins
 
           # Create oVirt VM.
           attr = {
-              :name     => name,
-              :cores    => cpus,
-              :memory   => memory_size*1024,
-              :cluster  => cluster.id,
-              :template => template.id,
-              :display  => {:type => console },
+              :name      => name,
+              :cores     => cpus,
+              :memory    => memory_size*1024,
+              :cluster   => cluster.id,
+              :template  => template.id,
+              :display   => {:type => console },
               :user_data => user_data,
+              :quota     => quota,
           }
 
           begin
