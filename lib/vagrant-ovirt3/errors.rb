@@ -51,6 +51,10 @@ module VagrantPlugins
         error_key(:no_vm_error)
       end
 
+      class VMNotFoundError < VagrantOVirtError
+        error_key(:vm_not_found_error)
+      end
+
       class StartVMError < VagrantOVirtError
         error_key(:start_vm_error)
       end

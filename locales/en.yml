@@ -62,6 +62,8 @@ en:
         Error while adding new interface to VM. %{error_message}
       no_vm_error: |-
         No VM %{vm_name} found.
+      vm_not_found_error: |-
+        No matching VM found on oVirt server.
       no_network_error: |-
         No network %{network_name} found.
       start_vm_error: |-

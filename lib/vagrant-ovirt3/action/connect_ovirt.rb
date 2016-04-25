@@ -66,9 +66,15 @@ module VagrantPlugins
             raise Errors::FogOVirtConnectionError,
               :error_message => e.message
           end
+
           OVirtProvider.ovirt_connection = env[:ovirt_compute]
 
-          @app.call(env)
+          begin
+            @app.call(env)
+          rescue OVIRT::OvirtException => e
+            raise Errors::VMNotFoundError if e.message =~ /^404/
+          end
+
         end
 
         private
