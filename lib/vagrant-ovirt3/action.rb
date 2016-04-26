@@ -41,6 +41,16 @@ module VagrantPlugins
         end
       end
 
+      def self.action_start
+        with_ovirt do |env, b|
+          if env[:machine_state_id] == :down
+            b.use StartVM
+            b.use WaitTillUp
+            b.use SyncFolders
+          end
+        end
+      end
+
       def self.action_halt
         with_ovirt do |env, b|
           if env[:machine_state_id] != :up
@@ -165,9 +175,31 @@ module VagrantPlugins
         end
       end
 
+      # This is the action implements the reload command
+      # It uses the halt and start actions
+      def self.action_reload
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use Call, IsCreated do |env, b2|
+            if !env[:result]
+              b2.use MessageNotCreated
+              next
+            end
+            b2.use Call, IsRunning do |env2, b3|
+              # if vm is running keep going
+              if env2[:result]
+                b3.use ConfigValidate
+                b3.use action_halt
+                b3.use action_start
+              end
+            end
+          end
+        end
+      end
+
       action_root = Pathname.new(File.expand_path("../action", __FILE__))
       autoload :ConnectOVirt, action_root.join("connect_ovirt")
       autoload :IsCreated, action_root.join("is_created")
+      autoload :IsRunning, action_root.join("is_running")
       autoload :SetNameOfDomain, action_root.join("set_name_of_domain")
       autoload :CreateVM, action_root.join("create_vm")
       autoload :CreateNetworkInterfaces, action_root.join("create_network_interfaces")
