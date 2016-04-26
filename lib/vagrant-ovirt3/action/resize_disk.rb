@@ -16,6 +16,7 @@ module VagrantPlugins
         def call(env)
           # Is it necessary to resize the disk?
           config = env[:machine].provider_config
+          connect_timeout = config.connect_timeout
           if config.disk_size.nil?
             # Nothing to do
             @app.call(env)
@@ -44,7 +45,7 @@ module VagrantPlugins
 
           # Wait till all volumes are ready.
           env[:ui].info(I18n.t("vagrant_ovirt3.wait_for_ready_volume"))
-          for i in 0..10
+          for i in 0..connect_timeout
             ready = true
             machine = env[:ovirt_compute].servers.get(env[:machine].id.to_s)
             machine.volumes.each do |volume|
