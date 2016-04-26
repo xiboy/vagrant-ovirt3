@@ -90,6 +90,7 @@ module VagrantPlugins
 
             b2.use ConnectOVirt
             b2.use DestroyVM
+            b2.use ProvisionerCleanup
           end
         end
       end
@@ -185,6 +186,8 @@ module VagrantPlugins
       autoload :MessageNotUp, action_root.join("message_not_up")
       autoload :MessageSavingState, action_root.join("message_saving_state")
       autoload :MessageNotSuspended, action_root.join("message_not_suspended")
+
+      autoload :ProvisionerCleanup, 'vagrant/action/builtin/provisioner_cleanup'
 
       private
       def self.with_ovirt
