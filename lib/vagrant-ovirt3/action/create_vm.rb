@@ -23,6 +23,7 @@ module VagrantPlugins
           memory_guaranteed_size = config.memory_guaranteed ? config.memory_guaranteed*1024 : nil
           quota = config.quota
           memory_size = config.memory*1024
+          connect_timeout = config.connect_timeout
           user_data = config.user_data ?
             Base64::encode64(config.user_data) :
             nil
@@ -107,7 +108,7 @@ module VagrantPlugins
 
           # Wait till all volumes are ready.
           env[:ui].info(I18n.t("vagrant_ovirt3.wait_for_ready_vm"))
-          for i in 0..10
+          for i in 0..connect_timeout
             ready = true
             server = env[:ovirt_compute].servers.get(env[:machine].id.to_s)
             server.volumes.each do |volume|

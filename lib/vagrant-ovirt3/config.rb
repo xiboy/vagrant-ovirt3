@@ -11,6 +11,8 @@ module VagrantPlugins
       attr_accessor :cluster
       attr_accessor :filtered_api
 
+      attr_accessor :connect_timeout
+
       # Domain specific settings used while creating new machine.
       attr_accessor :memory
       attr_accessor :memory_guaranteed
@@ -29,12 +31,14 @@ module VagrantPlugins
       attr_accessor :ca_cert_file
 
       def initialize
-        @url            = UNSET_VALUE
-        @username       = UNSET_VALUE
-        @password       = UNSET_VALUE
-        @datacenter     = UNSET_VALUE
-        @cluster        = UNSET_VALUE
-        @filtered_api   = UNSET_VALUE
+        @url             = UNSET_VALUE
+        @username        = UNSET_VALUE
+        @password        = UNSET_VALUE
+        @datacenter      = UNSET_VALUE
+        @cluster         = UNSET_VALUE
+        @filtered_api    = UNSET_VALUE
+
+        @connect_timeout = UNSET_VALUE
 
         # Domain specific settings.
         @memory            = UNSET_VALUE
@@ -60,6 +64,7 @@ module VagrantPlugins
         @datacenter = nil if @datacenter == UNSET_VALUE
         @cluster = nil if @cluster == UNSET_VALUE
         @filtered_api = false if @filtered_api == UNSET_VALUE
+        @connect_timeout = 10 if @connect_timeout == UNSET_VALUE
 
         # Domain specific settings.
         @memory = 512 if @memory == UNSET_VALUE

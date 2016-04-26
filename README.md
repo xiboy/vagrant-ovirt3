@@ -44,6 +44,7 @@ Vagrant.configure('2') do |config|
     ovirt.quota = "e92124b9-22f4-4cef-bcd6-b9ae22155dcd"
     ovirt.ca_no_verify = true
     ovirt.memory_guaranteed = 2048 # Supported by oVirt 3.6 and above only
+    ovirt.connect_timeout = 30
   end
 end
 ```
@@ -65,6 +66,7 @@ This provider exposes quite a few provider-specific configuration options:
   certificate.
 * `quota` - The ID of the quota to use. This can be retrieved via the REST API
 * `memory_guaranteed` - The amount of memory guaranteed to the VM. *Supported by oVirt 3.6 and above only*
+* `connect_timeout` - The amount of time to wait until the VM changes state
 
 ### Domain Specific Options
 
