@@ -13,6 +13,7 @@ module VagrantPlugins
 
       # Domain specific settings used while creating new machine.
       attr_accessor :memory
+      attr_accessor :memory_guaranteed
       attr_accessor :cpus
       attr_accessor :template
       attr_accessor :template_version
@@ -36,15 +37,16 @@ module VagrantPlugins
         @filtered_api   = UNSET_VALUE
 
         # Domain specific settings.
-        @memory     = UNSET_VALUE
-        @cpus       = UNSET_VALUE
-        @quota      = UNSET_VALUE
-        @template   = UNSET_VALUE
-        @template_version = UNSET_VALUE
-        @console    = UNSET_VALUE
-        @disk_size  = UNSET_VALUE
-        @user_data  = UNSET_VALUE
-        @name       = UNSET_VALUE
+        @memory            = UNSET_VALUE
+        @memory_guaranteed = UNSET_VALUE
+        @cpus              = UNSET_VALUE
+        @quota             = UNSET_VALUE
+        @template          = UNSET_VALUE
+        @template_version  = UNSET_VALUE
+        @console           = UNSET_VALUE
+        @disk_size         = UNSET_VALUE
+        @user_data         = UNSET_VALUE
+        @name              = UNSET_VALUE
 
         @ca_no_verify = UNSET_VALUE
         @ca_cert_store = UNSET_VALUE
@@ -61,6 +63,7 @@ module VagrantPlugins
 
         # Domain specific settings.
         @memory = 512 if @memory == UNSET_VALUE
+        @memory_guaranteed = nil if @memory_guaranteed == UNSET_VALUE
         @cpus = 1 if @cpus == UNSET_VALUE
         @quota = nil if @quota == UNSET_VALUE
         @template = 'Blank' if @template == UNSET_VALUE

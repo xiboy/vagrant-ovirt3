@@ -43,6 +43,7 @@ Vagrant.configure('2') do |config|
     ovirt.datacenter = 'datacenter'
     ovirt.quota = "e92124b9-22f4-4cef-bcd6-b9ae22155dcd"
     ovirt.ca_no_verify = true
+    ovirt.memory_guaranteed = 2048 # Supported by oVirt 3.6 and above only
   end
 end
 ```
@@ -63,6 +64,7 @@ This provider exposes quite a few provider-specific configuration options:
 * `ca_cert_file` - Like `ca_cert_store`, but provides a file containing a single
   certificate.
 * `quota` - The ID of the quota to use. This can be retrieved via the REST API
+* `memory_guaranteed` - The amount of memory guaranteed to the VM. *Supported by oVirt 3.6 and above only*
 
 ### Domain Specific Options
 

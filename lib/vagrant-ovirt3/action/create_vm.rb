@@ -20,6 +20,7 @@ module VagrantPlugins
           name = (config.name.nil? ? env[:domain_name] : config.name)[0,15]
           console = config.console
           cpus = config.cpus
+          memory_guaranteed_size = config.memory_guaranteed ? config.memory_guaranteed*1024 : nil
           quota = config.quota
           memory_size = config.memory*1024
           user_data = config.user_data ?
@@ -60,19 +61,22 @@ module VagrantPlugins
 
           # Output the settings we're going to use to the user
           env[:ui].info(I18n.t("vagrant_ovirt3.creating_vm"))
-          env[:ui].info(" -- Name:          #{name}")
-          env[:ui].info(" -- Cpus:          #{cpus}")
-          env[:ui].info(" -- Memory:        #{memory_size/1024}M")
-          env[:ui].info(" -- Template:      #{template.name}")
-          env[:ui].info(" -- Version:       #{version_string}")
-          env[:ui].info(" -- Datacenter:    #{config.datacenter}")
-          env[:ui].info(" -- Cluster:       #{cluster.name}")
-          env[:ui].info(" -- Console:       #{console}")
+          env[:ui].info(" -- Name:              #{name}")
+          env[:ui].info(" -- Cpus:              #{cpus}")
+          env[:ui].info(" -- Memory:            #{memory_size/1024}M")
+          env[:ui].info(" -- Template:          #{template.name}")
+          env[:ui].info(" -- Version:           #{version_string}")
+          env[:ui].info(" -- Datacenter:        #{config.datacenter}")
+          env[:ui].info(" -- Cluster:           #{cluster.name}")
+          env[:ui].info(" -- Console:           #{console}")
+          if memory_guaranteed_size
+            env[:ui].info(" -- Memory Guaranteed: #{memory_guaranteed_size/1024}M")
+          end
           if quota
-            env[:ui].info(" -- Quota:         #{quota}")
+            env[:ui].info(" -- Quota:           #{quota}")
           end
           if config.disk_size
-            env[:ui].info(" -- Disk size:     #{config.disk_size}G")
+            env[:ui].info(" -- Disk size:       #{config.disk_size}G")
           end
           if config.user_data
             env[:ui].info(" -- User data:\n#{config.user_data}")
@@ -80,14 +84,15 @@ module VagrantPlugins
 
           # Create oVirt VM.
           attr = {
-              :name      => name,
-              :cores     => cpus,
-              :memory    => memory_size*1024,
-              :cluster   => cluster.id,
-              :template  => template.id,
-              :display   => {:type => console },
-              :user_data => user_data,
-              :quota     => quota,
+              :name               => name,
+              :cores              => cpus,
+              :memory             => memory_size*1024,
+              :cluster            => cluster.id,
+              :template           => template.id,
+              :display            => {:type => console },
+              :user_data          => user_data,
+              :quota              => quota,
+              :memory_guaranteed  => memory_guaranteed_size,
           }
 
           begin
