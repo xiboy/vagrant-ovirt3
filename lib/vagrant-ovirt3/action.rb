@@ -99,8 +99,8 @@ module VagrantPlugins
             end
 
             b2.use ConnectOVirt
+            b3.use ProvisionerCleanup, :before if defined?(ProvisionerCleanup)
             b2.use DestroyVM
-            b2.use ProvisionerCleanup
           end
         end
       end
