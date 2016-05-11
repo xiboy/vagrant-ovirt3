@@ -16,6 +16,8 @@ en:
       Halting VM...
     error_recovering: |-
       An error occured. Recovering..
+    wait_till_down: |-
+      Waiting for VM to shutdown...
     waiting_for_ip: |-
       Waiting for VM to get an IP address...
     waiting_for_ssh: |-
@@ -83,6 +85,8 @@ en:
         Error while updating volume. %{error_message}
       wait_for_ready_resized_volume_timeout: |-
         Timeout occurred while waiting for resized volume to become ready
+      wait_for_shutdown_vm_timeout: |-
+        Timeout occurred while waiting for VM to shutdown
 
     states:
       short_paused: |-

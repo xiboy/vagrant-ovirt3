@@ -63,6 +63,10 @@ module VagrantPlugins
         error_key(:wait_for_ready_vm_timeout)
       end
 
+      class WaitForShutdownVmTimeout < VagrantOVirtError
+        error_key(:wait_for_shutdown_vm_timeout)
+      end
+     
       class NoIpAddressError < VagrantOVirtError
         error_key(:no_ip_address_error)
       end

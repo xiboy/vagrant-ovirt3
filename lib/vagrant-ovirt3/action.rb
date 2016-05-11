@@ -99,7 +99,9 @@ module VagrantPlugins
             end
 
             b2.use ConnectOVirt
-            b3.use ProvisionerCleanup, :before if defined?(ProvisionerCleanup)
+            b2.use ProvisionerCleanup, :before if defined?(ProvisionerCleanup)
+            b2.use HaltVM
+            b2.use WaitTillDown
             b2.use DestroyVM
           end
         end
@@ -213,6 +215,7 @@ module VagrantPlugins
       autoload :ReadState, action_root.join("read_state")
       autoload :ReadSSHInfo, action_root.join("read_ssh_info")
       autoload :WaitTillUp, action_root.join("wait_till_up")
+      autoload :WaitTillDown, action_root.join("wait_till_down")
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageAlreadyUp, action_root.join("message_already_up")

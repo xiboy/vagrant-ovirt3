@@ -117,6 +117,9 @@ module VagrantPlugins
                 break
               end
             end
+            if env[:machine].state.id != :down
+              ready = false
+            end
             break if ready
             sleep 2
           end
