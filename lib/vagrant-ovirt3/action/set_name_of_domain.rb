@@ -4,7 +4,7 @@ module VagrantPlugins
 
       # Setup name for domain and domain volumes.
       class SetNameOfDomain
-        @@MAX_NAME_LENGTH = 64
+        @@MAX_NAME_LENGTH = 59
         def initialize(app, env)
           @app = app
         end
